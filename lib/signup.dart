@@ -178,21 +178,30 @@ class _CreateAccountState extends State<CreateAccount> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context, PageTransition(child: Login(), type: PageTransitionType.rotate,alignment: Alignment.center, isIos: true));
+                    context,
+                    PageTransition(
+                        child: Login(),
+                        type: PageTransitionType.rotate,
+                        alignment: Alignment.center,
+                        isIos: true,
+                        ctx: context,
+                      inheritTheme: true,
+                    ),
+                );
               },
               child: Container(
                 margin: EdgeInsets.only(left: 50, right: 50),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 10,
-                        blurStyle: BlurStyle.outer,
-                        offset: Offset.fromDirection(
-                          20,
-                        ),
-                        // spreadRadius: 10,
-                        )
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset.fromDirection(
+                        20,
+                      ),
+                      // spreadRadius: 10,
+                    )
                   ],
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black12,
