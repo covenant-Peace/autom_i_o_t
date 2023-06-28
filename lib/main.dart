@@ -1,4 +1,4 @@
-import 'package:autom_i_o_t/login.dart';
+import 'package:autom_i_o_t/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'constants.dart';
 
@@ -36,13 +37,38 @@ class _CreateAccountState extends State<CreateAccount> {
         child: Column(
           children: [
             Text(
+              'AutomIoT',
+              style: kText4,
+            )
+                .animate()
+                .fadeIn() // uses `Animate.defaultDuration`
+                .scale(
+                    curve: Curves.elasticIn,
+                    duration: 1000.ms) // inherits duration from fadeIn
+                .move(
+                    delay: 300.ms,
+                    duration: 600.ms) // runs after the above w/new duration
+                .shimmer()
+                .then(duration: 1000.ms)
+                .shake()
+                .color(
+                  blendMode: BlendMode.overlay,
+                  begin: Colors.black26,
+                  end: Colors.black,
+                  curve: Curves.easeIn,
+                ),
+            SizedBox(
+              height: 50,
+            ),
+            Text(
               'Sign up',
               style: kText1,
             ),
             SizedBox(
-              height: 20,
+              height: 80,
             ),
             Container(
+              margin: EdgeInsets.only(left: 20),
               decoration: BoxDecoration(
                 boxShadow: [
                   !focusNode1.hasFocus
@@ -89,6 +115,7 @@ class _CreateAccountState extends State<CreateAccount> {
               height: 40,
             ),
             Container(
+              margin: EdgeInsets.only(left: 20),
               decoration: BoxDecoration(
                 boxShadow: [
                   focusNode1.hasFocus
@@ -121,7 +148,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   mouseCursor: MouseCursor.uncontrolled,
                   style: kText3,
                   focusNode: focusNode1,
-                  obscureText: !isSeen?true:false,
+                  obscureText: !isSeen ? true : false,
                   onTap: () {
                     setState(() {
                       focusNode1.requestFocus();
@@ -134,14 +161,42 @@ class _CreateAccountState extends State<CreateAccount> {
                     isSeen ? Icons.remove_red_eye : Icons.visibility_off,
                     color: isSeen ? Colors.white : Colors.grey,
                     size: 18,
-                  ), onPressed: () {
+                  ),
+                  onPressed: () {
                     setState(() {
                       isSeen = !isSeen;
                     });
-                },
+                  },
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 50, right: 50),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset.fromDirection(
+                        20,
+                      )
+                      // spreadRadius: 10,
+                      )
+                ],
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.black12,
+              ),
+              constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+              alignment: Alignment.center,
+              child: Text(
+                'SignUp',
+                style: kText5,
+              ),
+            ),
           ],
         ),
       ),
