@@ -1,20 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:autom_i_o_t/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'constants.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<Login> createState() => _LoginState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _LoginState extends State<Login> {
   FocusNode focusNode = FocusNode();
   FocusNode focusNode1 = FocusNode();
   bool isSeen = false;
@@ -23,13 +21,18 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black45,
-      // appBar: AppBar(
-      //   leading: const Icon(
-      //     Icons.arrow_back_ios,
-      //     color: Colors.white,
-      //   ),
-      //   backgroundColor: Colors.black45.withBlue(20),
-      // ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.black45.withBlue(20),
+      ),
       body: Container(
         padding: const EdgeInsets.only(
           top: 50,
@@ -45,25 +48,25 @@ class _CreateAccountState extends State<CreateAccount> {
                 .animate()
                 .fadeIn() // uses `Animate.defaultDuration`
                 .scale(
-                    curve: Curves.elasticIn,
-                    duration: 1000.ms) // inherits duration from fadeIn
+                curve: Curves.elasticIn,
+                duration: 1000.ms) // inherits duration from fadeIn
                 .move(
-                    delay: 300.ms,
-                    duration: 600.ms) // runs after the above w/new duration
+                delay: 300.ms,
+                duration: 600.ms) // runs after the above w/new duration
                 .shimmer()
                 .then(duration: 1000.ms)
                 .shake()
                 .color(
-                  blendMode: BlendMode.overlay,
-                  begin: Colors.black26,
-                  end: Colors.black,
-                  curve: Curves.easeIn,
-                ),
+              blendMode: BlendMode.overlay,
+              begin: Colors.black26,
+              end: Colors.black,
+              curve: Curves.easeIn,
+            ),
             SizedBox(
               height: 50,
             ),
             Text(
-              'Sign up',
+              'Log in',
               style: kText1,
             ),
             SizedBox(
@@ -75,15 +78,15 @@ class _CreateAccountState extends State<CreateAccount> {
                 boxShadow: [
                   !focusNode1.hasFocus
                       ? BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 15,
-                          blurStyle: BlurStyle.outer,
-                        )
+                    color: Colors.grey,
+                    blurRadius: 15,
+                    blurStyle: BlurStyle.outer,
+                  )
                       : BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 2,
-                          blurStyle: BlurStyle.outer,
-                        )
+                    color: Colors.grey,
+                    blurRadius: 2,
+                    blurStyle: BlurStyle.outer,
+                  )
                 ],
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -122,15 +125,15 @@ class _CreateAccountState extends State<CreateAccount> {
                 boxShadow: [
                   focusNode1.hasFocus
                       ? BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 15,
-                          blurStyle: BlurStyle.outer,
-                        )
+                    color: Colors.grey,
+                    blurRadius: 15,
+                    blurStyle: BlurStyle.outer,
+                  )
                       : BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 2,
-                          blurStyle: BlurStyle.outer,
-                        )
+                    color: Colors.grey,
+                    blurRadius: 2,
+                    blurStyle: BlurStyle.outer,
+                  )
                 ],
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -172,37 +175,39 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(width: 5,),
+                Text('Forgot Password?', style: kText6,),
+              ],
+            ),
             SizedBox(
               height: 40,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context, PageTransition(child: Login(), type: PageTransitionType.rotate,alignment: Alignment.center, isIos: true));
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 50, right: 50),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 10,
-                        blurStyle: BlurStyle.outer,
-                        offset: Offset.fromDirection(
-                          20,
-                        ),
-                        // spreadRadius: 10,
-                        )
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.black12,
-                ),
-                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
-                alignment: Alignment.center,
-                child: Text(
-                  'SignUp',
-                  style: kText5,
-                ),
+            Container(
+              margin: EdgeInsets.only(left: 50, right: 50),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset.fromDirection(
+                        20,
+                      )
+                    // spreadRadius: 10,
+                  )
+                ],
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.black12,
+              ),
+              constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+              alignment: Alignment.center,
+              child: Text(
+                'Log in',
+                style: kText5,
               ),
             ),
           ],

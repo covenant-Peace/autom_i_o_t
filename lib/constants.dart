@@ -30,3 +30,9 @@ const kText5 = TextStyle(
   fontSize: 16,
   color: Colors.white70,
 );
+
+const kText6 = TextStyle(
+  fontWeight: FontWeight.w300,
+  fontSize: 12,
+  color: Colors.white70,
+);
