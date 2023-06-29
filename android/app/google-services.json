@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1042854083795",
+    "project_id": "automiot",
+    "storage_bucket": "automiot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042854083795:android:9f1e79230fb1d5c1f82826",
+        "android_client_info": {
+          "package_name": "com.example.autom_i_o_t"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042854083795-un31gi0pp2sbq3i8p5snihpl1rmml6go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiM3Lnwht4WA0ZbUmV23XYu16RcXZdpzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042854083795-un31gi0pp2sbq3i8p5snihpl1rmml6go.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1042854083795-03dumm03lh2rjtdgv322me6obi70pg1g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.automIOt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

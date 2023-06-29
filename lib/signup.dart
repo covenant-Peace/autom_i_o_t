@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:autom_i_o_t/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -18,8 +19,16 @@ class _CreateAccountState extends State<CreateAccount> {
   FocusNode focusNode1 = FocusNode();
   bool isSeen = false;
 
+  bool showSpinner = false;
+  final textMail = TextEditingController();
+  final textPassword = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
+
+  signIn()async{
+    await _auth.createUserWithEmailAndPassword(
+        email: textMail.text.trim(), password: textPassword.text.trim());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +106,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 title: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Olubunmi Peace',
+                    hintText: 'automiot@email.com',
                     hintStyle: kText2,
                     border: InputBorder.none,
                   ),
@@ -106,6 +115,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   // textInputAction: TextInputAction.n,
                   mouseCursor: MouseCursor.uncontrolled,
                   style: kText3,
+                  controller: textMail,
                   onTap: () {
                     setState(() {
                       focusNode.requestFocus();
@@ -148,7 +158,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     hintStyle: kText2,
                     border: InputBorder.none,
                   ),
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: textPassword,
                   mouseCursor: MouseCursor.uncontrolled,
                   style: kText3,
                   focusNode: focusNode1,
@@ -179,90 +190,78 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                  PageRouteBuilder(
-                    transitionDuration: Duration(milliseconds: 500),
-                    pageBuilder: (
-                        BuildContext context,
-                        Animation<double> animation,
-                        Animation<double> secondaryAnimation,) {
-                      return Login();
-                    },
-                    transitionsBuilder: (
-                        BuildContext context,
-                        Animation<double> animation,
-                        Animation<double> secondaryAnimation,
-                        Widget child) {
-                      return Align(
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: child,
+                setState(() {
+                  showSpinner = true;
+                  // text.text.isEmpty ? validate = false : validate = true;
+                });
+                // if (validate == true) {
+                  try {
+                    if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
+                      signIn();
+                      // FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 500),
+                          pageBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation,) {
+                            return Login();
+                          },
+                          transitionsBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation,
+                              Widget child) {
+                            return Align(
+                              child: FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              ),
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
-                );
-              },
-              child: InkWell(
-                onTap: (){
-                  setState(() {
-                    showSpinner = true;
-                    text.text.isEmpty ? validate = false : validate = true;
-                  });
-                  if (validate == true) {
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                          email: email!, password: password!);
-                      FirebaseAuth.instance.currentUser?.updateDisplayName(name);
-
-                      if (newUser != null) {
-                        _firestore.collection('account details').doc(newUser.user?.uid).set({
-                          'Full name': name,
-                          'email': email,
-                          'password': password,
-                          'phone number': phoneNumber
-                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VerifyEmail()));
-                      }
-                    } catch (e) {
+                    }
+                    else{
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(e.toString()),
+                        content: Text('Please input your email and password'),
                         duration: Duration(seconds: 6),
                       ));
                     }
-                  }
-                  setState(() {
-                    showSpinner = false;
-                  });
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 50, right: 50),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 10,
-                        blurStyle: BlurStyle.outer,
-                        offset: Offset.fromDirection(
-                          20,
-                        ),
-                        // spreadRadius: 10,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.black12,
-                  ),
-                  constraints: BoxConstraints(minWidth: 100, minHeight: 40),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'SignUp',
-                    style: kText5,
-                  ),
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(e.toString()),
+                      duration: Duration(seconds: 6),
+                    ));
+                  // }
+                }
+                setState(() {
+                  showSpinner = false;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 50, right: 50),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset.fromDirection(
+                        20,
+                      ),
+                      // spreadRadius: 10,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12,
+                ),
+                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                alignment: Alignment.center,
+                child: Text(
+                  'SignUp',
+                  style: kText5,
                 ),
               ),
             ),
