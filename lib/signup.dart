@@ -3,7 +3,6 @@
 import 'package:autom_i_o_t/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'constants.dart';
 
@@ -179,14 +178,27 @@ class _CreateAccountState extends State<CreateAccount> {
               onTap: () {
                 Navigator.push(
                     context,
-                    PageTransition(
-                        child: Login(),
-                        type: PageTransitionType.rotate,
-                        alignment: Alignment.center,
-                        isIos: true,
-                        ctx: context,
-                      inheritTheme: true,
-                    ),
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 500),
+                    pageBuilder: (
+                        BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,) {
+                      return Login();
+                    },
+                    transitionsBuilder: (
+                        BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return Align(
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
               child: Container(
