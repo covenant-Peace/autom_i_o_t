@@ -18,6 +18,9 @@ class _CreateAccountState extends State<CreateAccount> {
   FocusNode focusNode1 = FocusNode();
   bool isSeen = false;
 
+
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,28 +204,65 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                 );
               },
-              child: Container(
-                margin: EdgeInsets.only(left: 50, right: 50),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10,
-                      blurStyle: BlurStyle.outer,
-                      offset: Offset.fromDirection(
-                        20,
-                      ),
-                      // spreadRadius: 10,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.black12,
-                ),
-                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
-                alignment: Alignment.center,
-                child: Text(
-                  'SignUp',
-                  style: kText5,
+              child: InkWell(
+                onTap: (){
+                  setState(() {
+                    showSpinner = true;
+                    text.text.isEmpty ? validate = false : validate = true;
+                  });
+                  if (validate == true) {
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                          email: email!, password: password!);
+                      FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+
+                      if (newUser != null) {
+                        _firestore.collection('account details').doc(newUser.user?.uid).set({
+                          'Full name': name,
+                          'email': email,
+                          'password': password,
+                          'phone number': phoneNumber
+                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VerifyEmail()));
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.toString()),
+                        duration: Duration(seconds: 6),
+                      ));
+                    }
+                  }
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 50, right: 50),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10,
+                        blurStyle: BlurStyle.outer,
+                        offset: Offset.fromDirection(
+                          20,
+                        ),
+                        // spreadRadius: 10,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black12,
+                  ),
+                  constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'SignUp',
+                    style: kText5,
+                  ),
                 ),
               ),
             ),
