@@ -48,234 +48,235 @@ class _CreateAccountState extends State<CreateAccount> {
           left: 30,
           right: 30,
         ),
-        child: ProgressHUD(
-          child: Builder(
-            builder: (ctx) {
-              return Column(
-                children: [
-                  Text(
-                    'AutomIoT',
-                    style: kText4,
-                  )
-                      .animate()
-                      .fadeIn() // uses `Animate.defaultDuration`
-                      .scale(
-                          curve: Curves.elasticIn,
-                          duration: 1000.ms) // inherits duration from fadeIn
-                      .move(
-                          delay: 300.ms,
-                          duration: 600.ms) // runs after the above w/new duration
-                      .shimmer()
-                      .then(duration: 1000.ms)
-                      .shake()
-                      .color(
-                        blendMode: BlendMode.overlay,
-                        begin: Colors.black26,
-                        end: Colors.black,
-                        curve: Curves.easeIn,
-                      ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    'Sign up',
-                    style: kText1,
-                  ),
-                  SizedBox(
-                    height: 80,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        !focusNode1.hasFocus
-                            ? BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 15,
-                                blurStyle: BlurStyle.outer,
-                              )
-                            : BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2,
-                                blurStyle: BlurStyle.outer,
-                              )
-                      ],
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      title: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'automiot@email.com',
-                          hintStyle: kText2,
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.text,
-                        focusNode: focusNode,
-                        // textInputAction: TextInputAction.n,
-                        mouseCursor: MouseCursor.uncontrolled,
-                        style: kText3,
-                        controller: textMail,
-                        onTap: () {
-                          setState(() {
-                            focusNode.requestFocus();
-                            focusNode1.unfocus();
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        focusNode1.hasFocus
-                            ? BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 15,
-                                blurStyle: BlurStyle.outer,
-                              )
-                            : BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2,
-                                blurStyle: BlurStyle.outer,
-                              )
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.lock,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      title: TextField(
-                        decoration: InputDecoration(
-                          hintText: '******',
-                          hintStyle: kText2,
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
-                        controller: textPassword,
-                        mouseCursor: MouseCursor.uncontrolled,
-                        style: kText3,
-                        focusNode: focusNode1,
-                        obscureText: !isSeen ? true : false,
-                        onTap: () {
-                          setState(() {
-                            focusNode1.requestFocus();
-                            focusNode.unfocus();
-                          });
-                        },
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          isSeen ? Icons.remove_red_eye : Icons.visibility_off,
-                          color: isSeen ? Colors.white : Colors.grey,
-                          size: 18,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isSeen = !isSeen;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      final progress = ProgressHUD.of(ctx);
-                      progress?.showWithText('Automating.....');
-                      // setState(() {
-                      //   showSpinner = true;
-                      //   text.text.isEmpty ? validate = false : validate = true;
-                      // });
-                      // if (validate == true) {
-                        try {
-                          if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
-                            signIn();
-                            // FirebaseAuth.instance.currentUser?.updateDisplayName(name);
-
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                transitionDuration: Duration(milliseconds: 500),
-                                pageBuilder: (BuildContext context,
-                                    Animation<double> animation,
-                                    Animation<double> secondaryAnimation,) {
-                                  return Login();
-                                },
-                                transitionsBuilder: (BuildContext context,
-                                    Animation<double> animation,
-                                    Animation<double> secondaryAnimation,
-                                    Widget child) {
-                                  return Align(
-                                    child: FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                          else{
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Please input your email and password'),
-                              duration: Duration(seconds: 6),
-                            ));
-                          }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(e.toString()),
-                            duration: Duration(seconds: 6),
-                          ));
-                        // }
-                      }
-                      progress?.dispose();
-                      // setState(() {
-                      //   showSpinner = false;
-                      // });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 50, right: 50),
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 10,
-                            blurStyle: BlurStyle.outer,
-                            offset: Offset.fromDirection(
-                              20,
-                            ),
-                            // spreadRadius: 10,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black12,
-                      ),
-                      constraints: BoxConstraints(minWidth: 100, minHeight: 40),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'SignUp',
-                        style: kText5,
-                      ),
-                    ),
-                  ),
+        child: Column(
+          children: [
+            Text(
+              'AutomIoT',
+              style: kText4,
+            )
+                .animate()
+                .fadeIn() // uses `Animate.defaultDuration`
+                .scale(
+                    curve: Curves.elasticIn,
+                    duration: 1000.ms) // inherits duration from fadeIn
+                .move(
+                    delay: 300.ms,
+                    duration: 600.ms) // runs after the above w/new duration
+                .shimmer()
+                .then(duration: 1000.ms)
+                .shake()
+                .color(
+                  blendMode: BlendMode.overlay,
+                  begin: Colors.black26,
+                  end: Colors.black,
+                  curve: Curves.easeIn,
+                ),
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              'Sign up',
+              style: kText1,
+            ),
+            SizedBox(
+              height: 80,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  !focusNode1.hasFocus
+                      ? BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 15,
+                          blurStyle: BlurStyle.outer,
+                        )
+                      : BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 2,
+                          blurStyle: BlurStyle.outer,
+                        )
                 ],
-              );
-            }
-          ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                title: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'automiot@email.com',
+                    hintStyle: kText2,
+                    border: InputBorder.none,
+                  ),
+                  keyboardType: TextInputType.text,
+                  focusNode: focusNode,
+                  // textInputAction: TextInputAction.n,
+                  // mouseCursor: MouseCursor.uncontrolled,
+                  style: kText3,
+                  controller: textMail,
+                  onTap: () {
+                    setState(() {
+                      focusNode.requestFocus();
+                      focusNode1.unfocus();
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  focusNode1.hasFocus
+                      ? BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 15,
+                          blurStyle: BlurStyle.outer,
+                        )
+                      : BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 2,
+                          blurStyle: BlurStyle.outer,
+                        )
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListTile(
+                leading: Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                title: TextField(
+                  decoration: InputDecoration(
+                    hintText: '******',
+                    hintStyle: kText2,
+                    border: InputBorder.none,
+                  ),
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: textPassword,
+                  // mouseCursor: MouseCursor.defer,
+                  style: kText3,
+                  focusNode: focusNode1,
+                  obscureText: !isSeen ? true : false,
+                  onTap: () {
+                    setState(() {
+                      focusNode1.requestFocus();
+                      focusNode.unfocus();
+                    });
+                  },
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    isSeen ? Icons.remove_red_eye : Icons.visibility_off,
+                    color: isSeen ? Colors.white : Colors.grey,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isSeen = !isSeen;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            InkWell(
+              onTap: () async {
+                // final progress = ProgressHUD.of(ctx);
+                // progress?.showWithText('Automating.....');
+                setState(() {
+                  showSpinner = true;
+                //   text.text.isEmpty ? validate = false : validate = true;
+                });
+                UserCredential? newUser;
+                // if (validate == true) {
+                if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
+                  try {
+                    // signIn();
+
+                     newUser = await _auth.createUserWithEmailAndPassword(
+                        email: textMail.text.trim(), password: textPassword.text.trim());
+
+                  }
+                  catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(e.toString()),
+                      duration: Duration(seconds: 6),
+                    ));
+                    // }
+                  }
+                }
+                else{
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Please input your email and password'),
+                duration: Duration(seconds: 6),
+                ));
+                }
+                if(newUser!.user!.email!.isNotEmpty){
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 500),
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,) {
+                        return Login();
+                      },
+                      transitionsBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                          Widget child) {
+                        return Align(
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                // progress?.dispose();
+                setState(() {
+                  showSpinner = false;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 50, right: 50),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      blurStyle: BlurStyle.outer,
+                      offset: Offset.fromDirection(
+                        20,
+                      ),
+                      // spreadRadius: 10,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12,
+                ),
+                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                alignment: Alignment.center,
+                child: showSpinner==false?Text(
+                  'SignUp',
+                  style: kText5,
+                ):CircularProgressIndicator(),
+              ),
+            ),
+          ],
         ),
       ),
     );
