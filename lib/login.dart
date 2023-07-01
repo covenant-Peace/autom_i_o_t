@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -16,6 +17,12 @@ class _LoginState extends State<Login> {
   FocusNode focusNode = FocusNode();
   FocusNode focusNode1 = FocusNode();
   bool isSeen = false;
+
+  bool showSpinner = false;
+  final textMail = TextEditingController();
+  final textPassword = TextEditingController();
+
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +105,13 @@ class _LoginState extends State<Login> {
                 ),
                 title: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Olubunmi Peace',
+                    hintText: 'automiot@email.com',
                     hintStyle: kText2,
                     border: InputBorder.none,
                   ),
                   keyboardType: TextInputType.text,
                   focusNode: focusNode,
+                  controller: textMail,
                   // textInputAction: TextInputAction.n,
                   mouseCursor: MouseCursor.uncontrolled,
                   style: kText3,
@@ -152,6 +160,7 @@ class _LoginState extends State<Login> {
                   keyboardType: TextInputType.text,
                   mouseCursor: MouseCursor.uncontrolled,
                   style: kText3,
+                  controller: textPassword,
                   focusNode: focusNode1,
                   obscureText: !isSeen ? true : false,
                   onTap: () {
@@ -186,28 +195,94 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 40,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 50, right: 50),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10,
-                      blurStyle: BlurStyle.outer,
-                      offset: Offset.fromDirection(
-                        20,
-                      )
-                    // spreadRadius: 10,
-                  )
-                ],
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.black12,
-              ),
-              constraints: BoxConstraints(minWidth: 100, minHeight: 40),
-              alignment: Alignment.center,
-              child: Text(
-                'Log in',
-                style: kText5,
+            InkWell(
+              onTap: ()async {
+                // final progress = ProgressHUD.of(ctx);
+                // progress?.showWithText('Automating.....');
+                setState(() {
+                  showSpinner = true;
+                  //   text.text.isEmpty ? validate = false : validate = true;
+                });
+                UserCredential? newUser;
+                // if (validate == true) {
+                if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
+                  try {
+                    // signIn();
+
+                    newUser = await _auth.signInWithEmailAndPassword(
+                        email: textMail.text.trim(), password: textPassword.text.trim());
+
+                  }
+                  catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(e.toString().trim()),
+                      duration: Duration(seconds: 6),
+                    ));
+                    setState(() {
+                      showSpinner = false;
+                    });
+                    // }
+                  }
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Please input your email and password'),
+                    duration: Duration(seconds: 6),
+                  ));
+                }
+                if(newUser!.user!.email!.isNotEmpty){
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 500),
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,) {
+                        return SizedBox();
+                      },
+                      transitionsBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                          Widget child) {
+                        return Align(
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                // progress?.dispose();
+                setState(() {
+                  showSpinner = false;
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 50, right: 50),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10,
+                        blurStyle: BlurStyle.outer,
+                        offset: Offset.fromDirection(
+                          20,
+                        )
+                      // spreadRadius: 10,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black12,
+                ),
+                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                alignment: Alignment.center,
+                child: Text(
+                  'Log in',
+                  style: kText5,
+                ),
               ),
             ),
           ],

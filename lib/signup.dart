@@ -26,11 +26,6 @@ class _CreateAccountState extends State<CreateAccount> {
 
   final _auth = FirebaseAuth.instance;
 
-  signIn()async{
-    await _auth.createUserWithEmailAndPassword(
-        email: textMail.text.trim(), password: textPassword.text.trim());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,9 +204,12 @@ class _CreateAccountState extends State<CreateAccount> {
                   }
                   catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(e.toString()),
+                      content: Text(e.toString().trim()),
                       duration: Duration(seconds: 6),
                     ));
+                    setState(() {
+                      showSpinner = false;
+                    });
                     // }
                   }
                 }
@@ -269,11 +267,17 @@ class _CreateAccountState extends State<CreateAccount> {
                   color: Colors.black12,
                 ),
                 constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                // padding: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.center,
                 child: showSpinner==false?Text(
                   'SignUp',
                   style: kText5,
-                ):CircularProgressIndicator(),
+                ):CircularProgressIndicator(
+                  backgroundColor: Colors.grey,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.white70, //<-- SEE HERE
+                  ),
+                ),
               ),
             ),
           ],
