@@ -1,4 +1,6 @@
+import 'package:autom_i_o_t/dashboard.dart';
 import 'package:autom_i_o_t/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +17,25 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    bool isSignedIn = false;
+    jhsbdhb(){
+      FirebaseAuth.instance
+          .authStateChanges()
+          .listen((User? user) {
+        if (user == null) {
+          isSignedIn = false;
+          print('User is currently signed out!');
+        } else {
+          isSignedIn = true;
+          print('User is signed in!');
+        }
+      });
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -32,7 +50,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const CreateAccount(),
+      home: !isSignedIn?
+        const CreateAccount(): const Dashboard(),
+
     );
   }
 }

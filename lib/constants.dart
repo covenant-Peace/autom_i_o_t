@@ -36,3 +36,9 @@ const kText6 = TextStyle(
   fontSize: 12,
   color: Colors.white70,
 );
+
+const kText7 = TextStyle(
+  fontWeight: FontWeight.w600,
+  fontSize: 25,
+  color: Colors.white,
+);

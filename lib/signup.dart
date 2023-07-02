@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:autom_i_o_t/dashboard.dart';
 import 'package:autom_i_o_t/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -186,14 +187,10 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             InkWell(
               onTap: () async {
-                // final progress = ProgressHUD.of(ctx);
-                // progress?.showWithText('Automating.....');
                 setState(() {
                   showSpinner = true;
-                //   text.text.isEmpty ? validate = false : validate = true;
                 });
                 UserCredential? newUser;
-                // if (validate == true) {
                 if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
                   try {
                     // signIn();
@@ -218,6 +215,9 @@ class _CreateAccountState extends State<CreateAccount> {
                 content: Text('Please input your email and password'),
                 duration: Duration(seconds: 6),
                 ));
+                setState(() {
+                  showSpinner = false;
+                });
                 }
                 if(newUser!.user!.email!.isNotEmpty){
                   // ignore: use_build_context_synchronously
@@ -228,7 +228,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       pageBuilder: (BuildContext context,
                           Animation<double> animation,
                           Animation<double> secondaryAnimation,) {
-                        return Login();
+                        return Dashboard();
                       },
                       transitionsBuilder: (BuildContext context,
                           Animation<double> animation,
@@ -280,6 +280,35 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 500),
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,) {
+                      return Login();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return Align(
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+                child: Text('Already have an account?', style: kText6,))
           ],
         ),
       ),
