@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:autom_i_o_t/constraints.dart';
 import 'package:autom_i_o_t/dashboard.dart';
 import 'package:autom_i_o_t/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,9 +40,9 @@ class _CreateAccountState extends State<CreateAccount> {
       // ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: 150,
-          left: 30,
+        padding: EdgeInsets.only(
+          top: Constraint().getHeight(context, 40),
+          left: Constraint().getWidth(context, 30),
           right: 30,
         ),
         child: Column(
