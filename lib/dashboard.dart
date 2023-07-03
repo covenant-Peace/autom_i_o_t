@@ -19,7 +19,8 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.only(top: 40, ),
         child: Column(
          children: const [
-           Center(child: Text('Smart Light', style: kText7,))
+           Center(child: Text('Smart Light', style: kText7,),
+           )
          ],
         ),
       ),
