@@ -43,7 +43,7 @@ class _CreateAccountState extends State<CreateAccount> {
         padding: EdgeInsets.only(
           top: Constraint().getHeight(context, 40),
           left: Constraint().getWidth(context, 30),
-          right: 30,
+          right: Constraint().getWidth(context, 30),
         ),
         child: Column(
           children: [
@@ -69,17 +69,19 @@ class _CreateAccountState extends State<CreateAccount> {
                   curve: Curves.easeIn,
                 ),
             SizedBox(
-              height: 50,
+              height: Constraint().getHeight(context, 50),
             ),
             Text(
               'Sign up',
               style: kText1,
             ),
             SizedBox(
-              height: 80,
+              height: Constraint().getHeight(context, 80),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.only(
+                left: Constraint().getWidth(context, 20),
+              ),
               decoration: BoxDecoration(
                 boxShadow: [
                   !focusNode1.hasFocus
@@ -124,10 +126,12 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: Constraint().getHeight(context, 40),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.only(
+                left: Constraint().getWidth(context, 20),
+              ),
               decoration: BoxDecoration(
                 boxShadow: [
                   focusNode1.hasFocus
@@ -184,7 +188,7 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: Constraint().getHeight(context, 40),
             ),
             InkWell(
               highlightColor: Colors.transparent,
@@ -252,12 +256,15 @@ class _CreateAccountState extends State<CreateAccount> {
                 });
               },
               child: Container(
-                margin: EdgeInsets.only(left: 50, right: 50),
+                margin: EdgeInsets.only(
+                  left: Constraint().getWidth(context, 50),
+                  right: Constraint().getWidth(context, 50),
+                ),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
-                      blurRadius: 10,
+                      blurRadius: 5,
                       blurStyle: BlurStyle.outer,
                       offset: Offset.fromDirection(20),
                       // spreadRadius: 10,
@@ -266,7 +273,10 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black12,
                 ),
-                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                constraints: BoxConstraints(
+                  minWidth: Constraint().getWidth(context, 100),
+                  minHeight: Constraint().getHeight(context, 40),
+                ),
                 // padding: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.center,
                 child: showSpinner == false
@@ -283,7 +293,7 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: Constraint().getHeight(context, 15),
             ),
             GestureDetector(
               onTap: () {
