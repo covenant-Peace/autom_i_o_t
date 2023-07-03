@@ -293,8 +293,8 @@ class _LoginState extends State<Login> {
                   color: Colors.black12,
                 ),
                 constraints: BoxConstraints(
-                  minWidth: Constraint().getWidth(context, 1000),
-                  minHeight: Constraint().getHeight(context, 40),
+                  minWidth: Constraint().getWidth(context, 100),
+                  minHeight: Constraint().getHeight(context, 60),
                 ),
                 alignment: Alignment.center,
                 child: Text(

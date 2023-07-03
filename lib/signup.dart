@@ -275,7 +275,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 constraints: BoxConstraints(
                   minWidth: Constraint().getWidth(context, 100),
-                  minHeight: Constraint().getHeight(context, 40),
+                  minHeight: Constraint().getHeight(context, 60),
                 ),
                 // padding: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.center,
