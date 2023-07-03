@@ -41,7 +41,8 @@ class _LoginState extends State<Login> {
         ),
         backgroundColor: Colors.black45.withBlue(20),
       ),
-      body: Container(
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
           top: 50,
           left: 30,
@@ -204,6 +205,8 @@ class _LoginState extends State<Login> {
               height: 40,
             ),
             InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onTap: () async {
                 // final progress = ProgressHUD.of(ctx);
                 // progress?.showWithText('Automating.....');

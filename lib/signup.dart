@@ -5,7 +5,6 @@ import 'package:autom_i_o_t/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
 import 'constants.dart';
 
@@ -38,9 +37,10 @@ class _CreateAccountState extends State<CreateAccount> {
       //   ),
       //   backgroundColor: Colors.black45.withBlue(20),
       // ),
-      body: Container(
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
-          top: 50,
+          top: 150,
           left: 30,
           right: 30,
         ),
@@ -186,20 +186,20 @@ class _CreateAccountState extends State<CreateAccount> {
               height: 40,
             ),
             InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onTap: () async {
                 setState(() {
                   showSpinner = true;
                 });
                 UserCredential? newUser;
-                if(textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
+                if (textPassword.text.isNotEmpty && textMail.text.isNotEmpty) {
                   try {
                     // signIn();
-
-                     newUser = await _auth.createUserWithEmailAndPassword(
-                        email: textMail.text.trim(), password: textPassword.text.trim());
-
-                  }
-                  catch (e) {
+                    newUser = await _auth.createUserWithEmailAndPassword(
+                        email: textMail.text.trim(),
+                        password: textPassword.text.trim());
+                  } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(e.toString().trim()),
                       duration: Duration(seconds: 6),
@@ -209,25 +209,26 @@ class _CreateAccountState extends State<CreateAccount> {
                     });
                     // }
                   }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Please input your email and password'),
+                    duration: Duration(seconds: 6),
+                  ));
+                  setState(() {
+                    showSpinner = false;
+                  });
                 }
-                else{
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Please input your email and password'),
-                duration: Duration(seconds: 6),
-                ));
-                setState(() {
-                  showSpinner = false;
-                });
-                }
-                if(newUser!.user!.email!.isNotEmpty){
+                if (newUser!.user!.email!.isNotEmpty) {
                   // ignore: use_build_context_synchronously
                   Navigator.push(
                     context,
                     PageRouteBuilder(
                       transitionDuration: Duration(milliseconds: 500),
-                      pageBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation,) {
+                      pageBuilder: (
+                        BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                      ) {
                         return Dashboard();
                       },
                       transitionsBuilder: (BuildContext context,
@@ -257,9 +258,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       color: Colors.grey,
                       blurRadius: 10,
                       blurStyle: BlurStyle.outer,
-                      offset: Offset.fromDirection(
-                        20,
-                      ),
+                      offset: Offset.fromDirection(20),
                       // spreadRadius: 10,
                     )
                   ],
@@ -269,29 +268,33 @@ class _CreateAccountState extends State<CreateAccount> {
                 constraints: BoxConstraints(minWidth: 100, minHeight: 40),
                 // padding: EdgeInsets.symmetric(vertical: 10),
                 alignment: Alignment.center,
-                child: showSpinner==false?Text(
-                  'SignUp',
-                  style: kText5,
-                ):CircularProgressIndicator(
-                  backgroundColor: Colors.grey,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.white70, //<-- SEE HERE
-                  ),
-                ),
+                child: showSpinner == false
+                    ? Text(
+                        'SignUp',
+                        style: kText5,
+                      )
+                    : CircularProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.white70, //<-- SEE HERE
+                        ),
+                      ),
               ),
             ),
             SizedBox(
               height: 15,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     transitionDuration: Duration(milliseconds: 500),
-                    pageBuilder: (BuildContext context,
-                        Animation<double> animation,
-                        Animation<double> secondaryAnimation,) {
+                    pageBuilder: (
+                      BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                    ) {
                       return Login();
                     },
                     transitionsBuilder: (BuildContext context,
@@ -308,7 +311,11 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                 );
               },
-                child: Text('Already have an account?', style: kText6,))
+              child: Text(
+                'Already have an account?',
+                style: kText6,
+              ),
+            ),
           ],
         ),
       ),
