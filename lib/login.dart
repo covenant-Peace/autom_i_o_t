@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'constants.dart';
+import 'constraints.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -43,10 +44,10 @@ class _LoginState extends State<Login> {
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: 50,
-          left: 30,
-          right: 30,
+        padding: EdgeInsets.only(
+          top: Constraint().getHeight(context, 50),
+          left: Constraint().getHeight(context, 30),
+          right: Constraint().getHeight(context, 30),
         ),
         child: Column(
           children: [
@@ -72,17 +73,17 @@ class _LoginState extends State<Login> {
                   curve: Curves.easeIn,
                 ),
             SizedBox(
-              height: 50,
+              height: Constraint().getHeight(context, 50),
             ),
             Text(
               'Log in',
               style: kText1,
             ),
             SizedBox(
-              height: 80,
+              height: Constraint().getHeight(context, 80),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.only(left: Constraint().getWidth(context, 20)),
               decoration: BoxDecoration(
                 boxShadow: [
                   !focusNode1.hasFocus
@@ -127,7 +128,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: Constraint().getHeight(context, 40),
             ),
             Container(
               margin: EdgeInsets.only(left: 20),
@@ -187,13 +188,13 @@ class _LoginState extends State<Login> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: Constraint().getHeight(context, 10),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 5,
+                  width: Constraint().getWidth(context, 5),
                 ),
                 Text(
                   'Forgot Password?',
@@ -202,7 +203,7 @@ class _LoginState extends State<Login> {
               ],
             ),
             SizedBox(
-              height: 40,
+              height: Constraint().getHeight(context, 40),
             ),
             InkWell(
               highlightColor: Colors.transparent,
@@ -272,7 +273,10 @@ class _LoginState extends State<Login> {
                 });
               },
               child: Container(
-                margin: EdgeInsets.only(left: 50, right: 50),
+                margin: EdgeInsets.only(
+                  left: Constraint().getWidth(context, 50),
+                  right: Constraint().getWidth(context, 50),
+                ),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -288,7 +292,10 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black12,
                 ),
-                constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+                constraints: BoxConstraints(
+                  minWidth: Constraint().getWidth(context, 1000),
+                  minHeight: Constraint().getHeight(context, 40),
+                ),
                 alignment: Alignment.center,
                 child: Text(
                   'Log in',
